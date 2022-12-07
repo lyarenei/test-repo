@@ -44,11 +44,11 @@ jobs:
       - name: Compile binary
         run: dotnet build -c Release ./src/MyApp/MyApp.csproj -p:Version=${{ steps.tag_version.outputs.new_version }} -o ./artifacts
       - name: Create github release and attach binary
-          uses: svenstaro/upload-release-action@v2
-          with:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: "/home/runner/work/artifacts/MyApp.dll"
-            asset_name: "MyApp.dll"
-            tag: ${{ steps.tag_version.outputs.new_version }}
-            overwrite: true
-            body: "Sample release."
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "/home/runner/work/artifacts/MyApp.dll"
+          asset_name: "MyApp.dll"
+          tag: ${{ steps.tag_version.outputs.new_version }}
+          overwrite: true
+          body: "Sample release."
