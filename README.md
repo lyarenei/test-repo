@@ -1,2 +1,2 @@
 # test-repo
-testing repo, nothign to see here
+testing repo, nothing to see here
