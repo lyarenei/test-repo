@@ -12,7 +12,7 @@ jobs:
       run:
         working-directory: ./src/MyApp
     steps:
-      - uses: devops-actions/action-get-tag@v1.0.1
+      - uses: little-core-labs/get-git-tag@v3.0.2
         id: tagName
 
       - name: Checkout Repository
