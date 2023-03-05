@@ -13,7 +13,7 @@ jobs:
         working-directory: ./src/MyApp
     steps:
       - name: Checkout Repository
-        uses: actions/checkout
+        uses: actions/checkout@v3
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
