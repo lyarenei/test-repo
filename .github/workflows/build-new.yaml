@@ -1,0 +1,44 @@
+name: Build & release
+
+on:
+  push:
+    tags:
+      - '1.[0-9]+.[0-9]+'
+jobs:
+  build:
+    name: Build & create release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/MyApp
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Build plugin
+        run: |
+          dotnet publish \
+          -c Release \
+          -p:Version=${{ github.ref }} \
+          -p:AssemblyVersion=${{ github.ref }} \
+          -o artifacts/ \
+          -f net6.0
+
+      - name: Create ZIP archive
+        working-directory: ./artifacts
+        run: zip ./app.zip MyApp.dll
+
+      - name: Create github release and attach plugin
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "./src/MyApp/artifacts/app.zip"
+          asset_name: "myapp_${{ github.ref }}.zip"
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This release was created by bot; no changelog available. Wait for manual edit."
