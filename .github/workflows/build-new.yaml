@@ -12,6 +12,9 @@ jobs:
       run:
         working-directory: ./src/MyApp
     steps:
+      - uses: little-core-labs/get-git-tag@v3.0.1
+        id: tagName
+
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -24,8 +27,8 @@ jobs:
         run: |
           dotnet publish \
           -c Release \
-          -p:Version=${{ github.ref }} \
-          -p:AssemblyVersion=${{ github.ref }} \
+          -p:Version=${{ steps.tagName.outputs.tag }} \
+          -p:AssemblyVersion=${{ steps.tagName.outputs.tag }} \
           -o artifacts/ \
           -f net6.0
 
@@ -38,7 +41,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: "./src/MyApp/artifacts/app.zip"
-          asset_name: "myapp_${{ github.ref }}.zip"
+          asset_name: "myapp_${{ steps.tagName.outputs.tag }}.zip"
           tag: ${{ github.ref }}
           overwrite: true
           body: "This release was created by bot; no changelog available. Wait for manual edit."
