@@ -33,7 +33,7 @@ jobs:
           -f net6.0
 
       - name: Create ZIP archive
-        working-directory: ./artifacts
+        working-directory: ./src/MyApp/artifacts
         run: zip ./app.zip MyApp.dll
 
       - name: Create github release and attach plugin
